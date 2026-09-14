@@ -6,6 +6,8 @@ jobs:
   auth-to-aws:
     runs-on: ubuntu-latest
     environment: production
+    outputs:
+      account_id: ${{ steps.whoami.outputs.account_id }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS credentials
@@ -15,4 +17,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Prove we are authenticated
-        run: aws sts get-caller-identity
+        id: whoami
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          echo "Authenticated to account $ACCOUNT_ID"
+          echo "account_id=$ACCOUNT_ID" >> "$GITHUB_OUTPUT"
+
+  report:
+    runs-on: ubuntu-latest
+    needs: auth-to-aws
+    steps:
+      - name: Show result from previous job
+        run: echo "auth-to-aws already ran and authenticated to AWS account ${{ needs.auth-to-aws.outputs.account_id }}"
