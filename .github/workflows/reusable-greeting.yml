@@ -1,0 +1,35 @@
+name: Reusable Greeting
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: "Who to greet"
+        required: true
+        type: string
+    secrets:
+      shout_word:
+        description: "Optional word to shout at the end (from caller's secrets)"
+        required: false
+    outputs:
+      greeting:
+        description: "The greeting message that was generated"
+        value: ${{ jobs.greet.outputs.greeting }}
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    outputs:
+      greeting: ${{ steps.build-greeting.outputs.greeting }}
+    steps:
+      - name: Build the greeting
+        id: build-greeting
+        run: |
+          MSG="Hello, ${{ inputs.name }}! Greetings from the reusable workflow."
+          echo "$MSG"
+          echo "greeting=$MSG" >> "$GITHUB_OUTPUT"
+
+      - name: Use a secret if the caller passed one
+        if: ${{ secrets.shout_word != '' }}
+        run: echo "Bonus shout word from caller secrets: ${{ secrets.shout_word }}"
+
