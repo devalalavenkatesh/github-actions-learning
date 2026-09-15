@@ -31,5 +31,5 @@ jobs:
 
       - name: Use a secret if the caller passed one
         if: ${{ secrets.shout_word != '' }}
-        run: echo "Bonus shout word from caller secrets: ${{ secrets.shout_word }}"
-
+        run: |
+          echo "Bonus shout word from caller secrets: ${{ secrets.shout_word }}"
