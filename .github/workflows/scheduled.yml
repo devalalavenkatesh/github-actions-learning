@@ -1,0 +1,13 @@
+name: Scheduled Job
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  say-good-morning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the time
+        run: echo "This runs every day at 3:00 UTC, or on-demand. Current time is $(date -u)"
