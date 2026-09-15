@@ -30,6 +30,11 @@ jobs:
           echo "greeting=$MSG" >> "$GITHUB_OUTPUT"
 
       - name: Use a secret if the caller passed one
-        if: ${{ secrets.shout_word != '' }}
+        env:
+          SHOUT_WORD: ${{ secrets.shout_word }}
         run: |
-          echo "Bonus shout word from caller secrets: ${{ secrets.shout_word }}"
+          if [ -n "$SHOUT_WORD" ]; then
+            echo "Bonus shout word from caller secrets: $SHOUT_WORD"
+          else
+            echo "No shout word secret was passed in by the caller."
+          fi
