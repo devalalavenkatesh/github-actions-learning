@@ -1,0 +1,24 @@
+name: Call Greeting
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Who should the reusable workflow greet?"
+        required: true
+        default: "Venkatesh"
+
+jobs:
+  say-hi:
+    uses: ./.github/workflows/reusable-greeting.yml
+    with:
+      name: ${{ inputs.name }}
+    secrets: inherit
+
+  show-result:
+    runs-on: ubuntu-latest
+    needs: say-hi
+    steps:
+      - name: Print greeting returned by the reusable workflow
+        run: echo "The reusable workflow said -> ${{ needs.say-hi.outputs.greeting }}"
+
