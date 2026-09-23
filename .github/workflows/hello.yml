@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Hello world 6ukhk from GitHub Actions"
+      - run: echo "Hello world jhkhhk from GitHub Actions"
       - run: ls -la
       - run: echo "Repo is on branch $GITHUB_REF_NAME"
