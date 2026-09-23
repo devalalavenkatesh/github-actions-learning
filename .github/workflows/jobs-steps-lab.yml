@@ -18,7 +18,7 @@ jobs:
           echo "Branch: $GITHUB_REF_NAME"
 
       - name: Step 3 - Intentional failure
-        run: exit 1
+        run: exit 0
 
       - name: Step 4 - Normally skipped
         run: echo "You should not see this"
