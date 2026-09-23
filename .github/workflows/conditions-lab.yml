@@ -1,0 +1,31 @@
+name: Conditions Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Choose an environment
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
+
+jobs:
+  show-selection:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Selected ${{ inputs.environment }}"
+
+  development:
+    if: ${{ inputs.environment == 'development' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running development job"
+
+  production:
+    if: ${{ inputs.environment == 'production' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running production job"
