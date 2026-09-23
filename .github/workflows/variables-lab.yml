@@ -1,4 +1,4 @@
-name: Variables and Contexts Lab
+name: Variables and Contexts Labb
 
 on:
   workflow_dispatch:
