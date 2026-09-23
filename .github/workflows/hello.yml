@@ -10,7 +10,7 @@ jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - run: echo "Hello world from GitHub Actions"
       - run: ls -la
       - run: echo "Repo is on branch $GITHUB_REF_NAME"
