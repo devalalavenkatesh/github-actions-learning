@@ -1,0 +1,36 @@
+name: Job Dependencies Lab
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build application
+        run: echo "Building application"
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test application
+        run: echo "Testing application"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy application
+        run: echo "Deploying application"
+
+  summary:
+    needs: [build, test, deploy]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show job results
+        run: |
+          echo "Build: ${{ needs.build.result }}"
+          echo "Test: ${{ needs.test.result }}"
+          echo "Deploy: ${{ needs.deploy.result }}"
