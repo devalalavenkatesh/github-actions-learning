@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy application
-        run: exit 1
+        run: "deploy application"
 
   summary:
     needs: [build, test, deploy]
