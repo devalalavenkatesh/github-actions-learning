@@ -1,0 +1,38 @@
+name: Variables and Contexts Lab
+
+on:
+  workflow_dispatch:
+
+env:
+  GREETING: Hello
+  LEVEL: workflow
+
+jobs:
+  explore:
+    runs-on: ubuntu-latest
+
+    env:
+      LEVEL: job
+
+    steps:
+      - name: Show custom variables
+        run: |
+          echo "Greeting: $GREETING"
+          echo "Level: $LEVEL"
+
+      - name: Compare context and runner variable
+        run: |
+          echo "Context repository: ${{ github.repository }}"
+          echo "Runner repository: $GITHUB_REPOSITORY"
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Operating system: $RUNNER_OS"
+
+      - name: Override variable for one step
+        env:
+          LEVEL: step
+        run: echo "Level inside this step: $LEVEL"
+
+      - name: Check variable after override
+        run: echo "Level after the override: $LEVEL"
