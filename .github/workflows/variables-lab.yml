@@ -1,28 +1,38 @@
-name: Jobs and Steps Lab
+name: Variables and Contexts Lab
 
 on:
   workflow_dispatch:
 
+env:
+  GREETING: Hello
+  LEVEL: workflow
+
 jobs:
-  learn-steps:
+  explore:
     runs-on: ubuntu-latest
 
+    env:
+      LEVEL: job
+
     steps:
-      - name: Step 1 - Start
-        run: echo "The job has started"
-
-      - name: Step 2 - Multiple commands
+      - name: Show custom variables
         run: |
-          echo "Runner: $RUNNER_OS"
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Branch: $GITHUB_REF_NAME"
+          echo "Greeting: $GREETING"
+          echo "Level: $LEVEL"
 
-      - name: Step 3 - Intentional failure
-        run: exit 1
+      - name: Compare context and runner variable
+        run: |
+          echo "Context repository: ${{ github.repository }}"
+          echo "Runner repository: $GITHUB_REPOSITORY"
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Operating system: $RUNNER_OS"
 
-      - name: Step 4 - Normally skipped
-        run: echo "You should not see this"
+      - name: Override variable for one step
+        env:
+          LEVEL: step
+        run: echo "Level inside this step: $LEVEL"
 
-      - name: Step 5 - Always runs
-        if: ${{ always() }}
-        run: echo "This runs even after a failure"
+      - name: Check variable after override
+        run: echo "Level after the override: $LEVEL"
