@@ -32,7 +32,9 @@ jobs:
       - name: Override variable for one step
         env:
           LEVEL: step
-        run: echo "Level inside this step: $LEVEL"
+        run: |
+          echo "Level inside this step: $LEVEL"
 
       - name: Check variable after override
-        run: echo "Level after the override: $LEVEL"
+        run: |
+          echo "Level after the override: $LEVEL"
