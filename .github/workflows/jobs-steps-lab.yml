@@ -1,0 +1,28 @@
+name: Jobs and Steps Lab
+
+on:
+  workflow_dispatch:
+
+jobs:
+  learn-steps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Start
+        run: echo "The job has started"
+
+      - name: Step 2 - Multiple commands
+        run: |
+          echo "Runner: $RUNNER_OS"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch: $GITHUB_REF_NAME"
+
+      - name: Step 3 - Intentional failure
+        run: exit 1
+
+      - name: Step 4 - Normally skipped
+        run: echo "You should not see this"
+
+      - name: Step 5 - Always runs
+        if: ${{ always() }}
+        run: echo "This runs even after a failure"
