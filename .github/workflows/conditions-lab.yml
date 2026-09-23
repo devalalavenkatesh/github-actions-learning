@@ -5,7 +5,6 @@ on:
     inputs:
       environment:
         description: Choose an environment
-        required: true
         default: development
         type: choice
         options:
