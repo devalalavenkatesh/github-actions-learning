@@ -1,0 +1,37 @@
+name: Databricks Triggered Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      databricks_run_id:
+        description: Databricks job run ID
+        required: false
+        type: string
+      message:
+        description: Optional message from Databricks
+        required: false
+        type: string
+
+jobs:
+  receive-databricks-event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display Databricks request
+        env:
+          TARGET_ENVIRONMENT: ${{ inputs.environment }}
+          DATABRICKS_RUN_ID: ${{ inputs.databricks_run_id }}
+          DATABRICKS_MESSAGE: ${{ inputs.message }}
+        run: |
+          echo "Triggered from Databricks"
+          echo "Environment: $TARGET_ENVIRONMENT"
+          echo "Databricks run ID: $DATABRICKS_RUN_ID"
+          echo "Message: $DATABRICKS_MESSAGE"
